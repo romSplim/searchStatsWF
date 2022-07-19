@@ -1,0 +1,28 @@
+PODS:
+  - Alamofire (5.5.0)
+  - AlamofireRSSParser (2.4.0):
+    - Alamofire (~> 5.0)
+  - SkeletonView (1.29.2)
+  - SwiftSoup (2.3.3)
+
+DEPENDENCIES:
+  - AlamofireRSSParser
+  - SkeletonView
+  - SwiftSoup
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - AlamofireRSSParser
+    - SkeletonView
+    - SwiftSoup
+
+SPEC CHECKSUMS:
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  AlamofireRSSParser: dab86644d4d220b313767c33ef09e7acf11f641a
+  SkeletonView: 915a80ecc2b6421ab7ac0f0212321c0cc1406472
+  SwiftSoup: 8e4844e785a975744f2c2606f8b3844ef67eb259
+
+PODFILE CHECKSUM: 66bc80103edff929e1f63b8f9d169889ad91c9e9
+
+COCOAPODS: 1.11.2
