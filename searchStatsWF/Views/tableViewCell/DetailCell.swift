@@ -8,20 +8,20 @@
 import UIKit
 
 protocol DetailCellProtocol: AnyObject {
-    func didTappedFavBtn(_ sender: UIButton)
-    func didTappedAchievesBtn(_ sender: UIButton)
+    func didTapFavBtn(_ sender: UIButton)
+    func didTapAchievesBtn(_ sender: UIButton)
+    func didTapProgressBtn(_ sender: UIButton)
 }
 
 class DetailCell: UITableViewCell {
+    
     weak var delegate: DetailCellProtocol?
     
     @IBOutlet weak var rankImage: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var clanLabel: UILabel!
-//    @IBOutlet weak var expLabel: UILabel!
     @IBOutlet weak var nextRankImage: UIImageView!
     @IBOutlet weak var favoriteButton: UIButton!
-//    @IBOutlet weak var progressView: ProgressView!
     @IBOutlet weak var achievesBtn: AnimatingButton!
     @IBOutlet weak var progressInfoBtn: UIButton!
     
@@ -35,6 +35,7 @@ class DetailCell: UITableViewCell {
     private func addTargets() {
         favoriteButton.addTarget(self, action: #selector(favButtonTapped) , for: .touchUpInside)
         achievesBtn.addTarget(self, action: #selector(achievesButtonTapped), for: .touchUpInside)
+        progressInfoBtn.addTarget(self, action: #selector(progressButtonTapped), for: .touchUpInside)
     }
     
     private func setupUI() {
@@ -69,15 +70,17 @@ class DetailCell: UITableViewCell {
         return model.clanName ?? "Не состоит в клане"
     }
     
-    //Delegate methods
+
     @objc func favButtonTapped(_ sender: UIButton) {
-        self.delegate?.didTappedFavBtn(sender)
+        self.delegate?.didTapFavBtn(sender)
     }
     
     @objc func achievesButtonTapped(_ sender: UIButton) {
-        self.delegate?.didTappedAchievesBtn(sender)
+        self.delegate?.didTapAchievesBtn(sender)
     }
     
-    
+    @objc func progressButtonTapped(_ sender: UIButton) {
+        self.delegate?.didTapProgressBtn(sender)
+    }
 
 }

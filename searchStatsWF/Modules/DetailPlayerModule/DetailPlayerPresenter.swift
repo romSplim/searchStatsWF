@@ -5,7 +5,7 @@
 //  Created by Рамиль Ахатов on 08.07.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol DetailPlayerViewProtocol: AnyObject {
     func showErrorMessage(_ message: String)
@@ -22,7 +22,7 @@ protocol DetailPlayerPresenterProtocol: AnyObject {
     var onCompletion: (((Player?, ErrorPlayer?)) -> Void)! { get set }
     func savePlayerInCoreData()
     func deleteFromCoreData(withNickName: String)
-    func showAchieves()
+    func showAchieves() -> UIViewController
 }
  
 final class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
@@ -89,8 +89,9 @@ final class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
         }
     }
     
-    func showAchieves() {
-        router?.showPlayerAchieves(nickName: nickName)
+    func showAchieves() -> UIViewController {
+        guard let achievesVc = router?.showPlayerAchieves(nickName: nickName) else { return UIViewController() }
+        return achievesVc
     }
     
     deinit {

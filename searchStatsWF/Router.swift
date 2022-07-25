@@ -14,7 +14,7 @@ protocol RouterProtocol {
     func initialSearchController()
     func showPlayerDetail(nickName: String)
     func showClanDetail(clanName: String)
-    func showPlayerAchieves(nickName: String)
+    func showPlayerAchieves(nickName: String) -> UIViewController
     func popToRoot()
 }
 
@@ -56,11 +56,10 @@ final class Router: RouterProtocol {
             navigationController.pushViewController(clanDetailVc, animated: true)
     }
     
-    func showPlayerAchieves(nickName: String) {
-        guard let navigationController = navigationController,
-              let playerAchievesVc = assemblyBuilder?.createAchievesModule(router: self, nickName: nickName) else { return }
-
-            navigationController.pushViewController(playerAchievesVc, animated: true)
+    func showPlayerAchieves(nickName: String) -> UIViewController {
+        guard let playerAchievesVc = assemblyBuilder?.createAchievesModule(router: self, nickName: nickName) else { return UIViewController() }
+        playerAchievesVc.modalPresentationStyle = .popover
+        return playerAchievesVc
     }
     
     func popToRoot() {

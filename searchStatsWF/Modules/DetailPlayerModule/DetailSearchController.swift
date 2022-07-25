@@ -94,6 +94,13 @@ final class DetailSearchController: UIViewController {
         }
     }
     
+    func addHapticFeedback() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+        let gen2 = UIImpactFeedbackGenerator(style: .light)
+        gen2.impactOccurred()
+    }
+    
 }
 
 extension DetailSearchController: DetailPlayerViewProtocol {
@@ -118,21 +125,25 @@ extension DetailSearchController: UIViewControllerTransitioningDelegate {
 }
 
 extension DetailSearchController: DetailCellProtocol {
-    func didTappedFavBtn(_ sender: UIButton) {
+    func didTapProgressBtn(_ sender: UIButton) {
+        let vc = ModalProgressViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        
+        present(vc, animated: false)
+    }
+    
+    func didTapFavBtn(_ sender: UIButton) {
         guard let nickName = presenter?.player?.nickname else { return }
         addPlayerToFavourite(nickName: nickName, sender: sender)
         addHapticFeedback()
     }
     
-    func didTappedAchievesBtn(_ sender: UIButton) {
-        presenter?.showAchieves()
+    func didTapAchievesBtn(_ sender: UIButton) {
+        guard let achievesVc = presenter?.showAchieves() else { return }
+        let navbar = UINavigationController(rootViewController: achievesVc)
+        present(navbar, animated: true)
     }
     
-    func addHapticFeedback() {
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
-        let gen2 = UIImpactFeedbackGenerator(style: .light)
-        gen2.impactOccurred()
-    }
+    
 }
 

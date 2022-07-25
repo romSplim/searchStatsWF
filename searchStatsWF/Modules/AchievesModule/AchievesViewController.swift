@@ -16,6 +16,7 @@ final class AchievesViewController: UIViewController {
         tableView.separatorColor = .blue
         setConstraints()
         presenter?.showPlayerAchieves()
+        setupRightBarButton()
     }
 
     lazy var tableView: UITableView = {
@@ -64,6 +65,15 @@ extension AchievesViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    private func setupRightBarButton() {
+        let barButton = UIBarButtonItem(title: "Закрыть", style: .plain, target: self, action: #selector(closeButtonTapped(sender:)))
+        barButton.tintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc private func closeButtonTapped(sender: UIBarButtonItem) {
+        self.dismiss(animated: true) 
+    }
     
 }
 
