@@ -16,9 +16,7 @@ extension DetailSearchController: UITableViewDataSource {
             numOfSections = 4
             tableView.backgroundView = nil
         } else {
-            tableView.backgroundView  = errorLabel
-            errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            tableView.backgroundView = errorLabel
             tableView.separatorStyle = .none
         }
         return numOfSections

@@ -9,13 +9,10 @@ import UIKit
 import SkeletonView
 import AlamofireRSSParser
 
-class ListNewsController: UIViewController {
+final class ListNewsController: UIViewController {
     
     var presenter: ListNewsPresenterProtocol?
-//    let rssService = RssService()
-//    let imageService = ImageService()
-//    var rssNews: RSSFeed?
-//    var newsImages: [String]?
+    
     var refreshIndicator = UIRefreshControl()
     var activityIndicator = UIActivityIndicatorView()
     
@@ -26,8 +23,7 @@ class ListNewsController: UIViewController {
         setupRootView()
         setupTableView()
         setupLayout()
-        presenter?.parsingImgNewUrl()
-        presenter?.getNewsInfo()
+        presenter?.dispatchGroupTask()
         setupRefreshIndicator()
     }
     
@@ -87,6 +83,7 @@ class ListNewsController: UIViewController {
 extension ListNewsController: ListNewsViewProtocol {
     func refreshUI() {
         print("Новости получены")
+        print("Новостей - \(presenter?.rssNews?.items.count), Картинок - \(presenter?.newsImages?.count)")
         self.tableView.reloadData()
         self.tableView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
     }

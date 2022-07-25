@@ -14,10 +14,11 @@ protocol RouterProtocol {
     func initialSearchController()
     func showPlayerDetail(nickName: String)
     func showClanDetail(clanName: String)
+    func showPlayerAchieves(nickName: String)
     func popToRoot()
 }
 
-class Router: RouterProtocol {
+final class Router: RouterProtocol {
     required init(navigationController: UINavigationController, assemblyBuilder: AssemblyProtocol) {
         self.navigationController = navigationController
         self.assemblyBuilder = assemblyBuilder
@@ -53,6 +54,13 @@ class Router: RouterProtocol {
               let clanDetailVc = assemblyBuilder?.createClanDetailModule(router: self, clanName: clanName) else { return }
 
             navigationController.pushViewController(clanDetailVc, animated: true)
+    }
+    
+    func showPlayerAchieves(nickName: String) {
+        guard let navigationController = navigationController,
+              let playerAchievesVc = assemblyBuilder?.createAchievesModule(router: self, nickName: nickName) else { return }
+
+            navigationController.pushViewController(playerAchievesVc, animated: true)
     }
     
     func popToRoot() {

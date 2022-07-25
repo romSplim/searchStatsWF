@@ -23,7 +23,7 @@ protocol SearchViewPresenterProtocol: AnyObject {
     func showClanDetail(clanName: String)
 }
 
-class SearchViewPresenter: SearchViewPresenterProtocol {
+final class SearchViewPresenter: SearchViewPresenterProtocol {
   
     private weak var view: SearchViewProtocol?
     

@@ -8,19 +8,28 @@
 import UIKit
 import WebKit
 
-class DetailNewsViewController: UIViewController, UIScrollViewDelegate {
-    let webView = WKWebView()
+final class DetailNewsViewController: UIViewController {
+
     var urlCurrentNews = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
-        webView.isOpaque = false
-        webView.scrollView.backgroundColor = .black
-        view.addSubview(webView)
+        addSubviews()
         setupLayout()
         loadNews()
     }
+    
+    private func addSubviews() {
+        view.addSubview(webView)
+    }
+    
+    private let webView: WKWebView = {
+        let webView = WKWebView()
+        webView.isOpaque = false
+        webView.scrollView.backgroundColor = .black
+        return webView
+    }()
     
     func loadNews() {
         guard let url = URL(string: urlCurrentNews) else { return }
@@ -36,8 +45,8 @@ class DetailNewsViewController: UIViewController, UIScrollViewDelegate {
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-       
-    
-    
+}
 
+extension DetailNewsViewController: DetailNewsViewProtocol {
+    
 }

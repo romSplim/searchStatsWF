@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkService {
+final class NetworkService {
     //Requests
     func playerRequest(searchTerm: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let parameters = self.prepareParametrs(searchTerm: searchTerm)

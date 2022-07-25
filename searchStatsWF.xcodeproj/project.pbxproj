@@ -198,13 +198,6 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		9553B6E82834CC310001E4EB /* DetailSearchController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DetailSearchController;
-			sourceTree = "<group>";
-		};
 		9553B6ED2834E9C10001E4EB /* Xib */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,7 +338,6 @@
 			isa = PBXGroup;
 			children = (
 				95921AFA2819913200A7C6F6 /* TabBarController.swift */,
-				9553B6E82834CC310001E4EB /* DetailSearchController */,
 				95BE66382854E6C300B94B74 /* PresentationController.swift */,
 			);
 			path = Controllers;
@@ -434,7 +426,6 @@
 				95C9A5BF27C3A8970015203E /* Extensions */,
 				95CD632627B900C100793FFF /* Assets.xcassets */,
 				95CD632B27B900C100793FFF /* Info.plist */,
-				95FB149F286727A5008C64B7 /* TestStuff */,
 			);
 			path = searchStatsWF;
 			sourceTree = "<group>";
@@ -450,13 +441,6 @@
 				957BC5D6285DB7F800BEB1D6 /* Achivement.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		95FB149F286727A5008C64B7 /* TestStuff */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TestStuff;
 			sourceTree = "<group>";
 		};
 		95FB14A028672E79008C64B7 /* Services */ = {

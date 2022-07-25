@@ -14,3 +14,7 @@ protocol DetailNewsViewProtocol: AnyObject {
 protocol DetailNewsPresenterProtocol: AnyObject {
     
 }
+
+final class DetailNewsPresenter: DetailNewsPresenterProtocol {
+    
+}

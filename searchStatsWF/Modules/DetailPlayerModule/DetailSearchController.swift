@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class DetailSearchController: UIViewController {
+final class DetailSearchController: UIViewController {
     
     var presenter: DetailPlayerPresenterProtocol?
 
@@ -72,7 +72,9 @@ class DetailSearchController: UIViewController {
                                      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                                      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                                     activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
+                                     activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                                     errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
     }
     
     @objc func nextRankTapped(sender: UITapGestureRecognizer) {
@@ -119,18 +121,18 @@ extension DetailSearchController: DetailCellProtocol {
     func didTappedFavBtn(_ sender: UIButton) {
         guard let nickName = presenter?.player?.nickname else { return }
         addPlayerToFavourite(nickName: nickName, sender: sender)
+        addHapticFeedback()
     }
     
     func didTappedAchievesBtn(_ sender: UIButton) {
-//        let vc = AchievesViewController()
-//        networkService.testParseRefactor(nickName: self.player?.nickname ?? "") { all, player, img  in
-//            if let all = all,
-//               let player = player,
-//               let img = img {
-//                vc.doAfterCompletion(all, player, img)
-//            }
-//        }
-//        navigationController?.pushViewController(vc, animated: true)
+        presenter?.showAchieves()
+    }
+    
+    func addHapticFeedback() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+        let gen2 = UIImpactFeedbackGenerator(style: .light)
+        gen2.impactOccurred()
     }
 }
 

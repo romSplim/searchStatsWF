@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
     
     var presenter: SearchViewPresenterProtocol?
     

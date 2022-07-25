@@ -15,7 +15,7 @@ protocol AssemblyProtocol {
     func createListNewsModule(router: RouterProtocol) -> UIViewController
 }
 
-class Assembly: AssemblyProtocol {
+final class Assembly: AssemblyProtocol {
     
     func createSearchModule(router: RouterProtocol) -> UIViewController {
         let view = SearchViewController()
@@ -46,10 +46,10 @@ class Assembly: AssemblyProtocol {
     
     func createAchievesModule(router: RouterProtocol, nickName: String) -> UIViewController {
         let view = AchievesViewController()
-//        let networkSevice = NetworkDataFetcher()
-//        let storeManager = StorageManager()
-//        let presenter = DetailClanPresenter(view: view, clanName: clanName, networkService: networkSevice, ranksStorage: storeManager, router: router)
-//        view.presenter = presenter
+        let networkSevice = NetworkDataFetcher()
+        let imageService = ImageService()
+        let presenter = AchievesPresenter(nickName: nickName, view: view, networkService: networkSevice, imageService: imageService)
+        view.presenter = presenter
         return view
     }
     

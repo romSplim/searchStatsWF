@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkDataFetcher {
+final class NetworkDataFetcher {
     private let networkService = NetworkService()
     
     func fetchPlayerData(serchTerm: String, completion: @escaping (Player?, ErrorPlayer?) -> Void) {
@@ -98,7 +98,7 @@ class NetworkDataFetcher {
         }
     }
     
-    func decodeInMemoryJson() async -> [Achivement]? {
+    func decodeInMemoryJson() -> [Achivement]? {
         let decoder = JSONDecoder()
         guard let url = Bundle.main.url(forResource: "jsonformatter", withExtension: "json"),
               let data = try? Data(contentsOf: url),
@@ -107,72 +107,69 @@ class NetworkDataFetcher {
     }
     //////////////////////////////////////////
     
-    private func getPlayerAchieves(nickName: String) async -> [PlayerAchieves]  {
-//        group.enter()
-        var kekus = [PlayerAchieves]()
+   
+    
+    
+    private func getPlayerAchieves(nickName: String, group: DispatchGroup, completion: @escaping ([PlayerAchieves]?) -> Void) {
+        group.enter()
         self.fetchPlayerAchievement(serchTerm: nickName) { achieves, error in
             guard let achieves = achieves else {
-//                group.leave()
+                group.leave()
                 return
             }
 
-//            completion(achieves)
-            kekus = achieves
+            completion(achieves)
             print("Достяги персонажа получены")
-//            group.leave()
+            group.leave()
         }
-        return kekus
+        
     }
     
-    private func getAllAchieves() async -> [AllAchieves] {
-//        group.enter()
-        var kekus = [AllAchieves]()
+    private func getAllAchieves(group: DispatchGroup, completion: @escaping ([AllAchieves]?) -> Void )  {
+        group.enter()
         self.fetchAllAchievement { achieves, error in
             guard let achieves = achieves else {
-//                group.leave()
+                group.leave()
                 return
             }
-//            completion(achieves)
-            kekus = achieves
+            completion(achieves)
             print("Каталог достяг получен")
-//            group.leave()
+            group.leave()
         }
-        return kekus
+        
     }
     
-    func fetchAchievesAsyncAwait(nickName: String, completion: ([PlayerAchieves]?, [AllAchieves]?, [Achivement]?) -> Void ) async {
-        let playerAchieves = await getPlayerAchieves(nickName: nickName)
-        let allAchieves = await getAllAchieves()
-        let allAchievesImages = await decodeInMemoryJson()
-        completion(playerAchieves, allAchieves, allAchievesImages)
+    
+    private func notifyGroup(completion: @escaping ([Achivement]?) -> Void) {
+        cuncurrentQ.async {
+            guard let allAchievesImages = self.decodeInMemoryJson() else { return }
+            completion(allAchievesImages)
+        }
     }
     
-//    private func notifyGroup(completion: @escaping ([Achivement]?) -> Void) {
-//        guard let allAchievesImages = decodeInMemoryJson() else { return }
-//        completion(allAchievesImages)
-//    }
+    let cuncurrentQ = DispatchQueue.global(qos: .userInitiated)
     
-//    func testParseRefactor(nickName: String, completion: @escaping ([AllAchieves]?, [PlayerAchieves]?, [Achivement]?) -> Void ) {
-//        let group = DispatchGroup()
-//        var playerAchieves: [PlayerAchieves]?
-//        var allAchives: [AllAchieves]?
-//
-//        getPlayerAchieves(nickName: nickName, group: group) { achieves in //Get current Player Achives
-//            playerAchieves = achieves
-//        }
-//
-//        getAllAchieves(group: group) { achieves in //Get list of all achieves
-//                allAchives = achieves
-//        }
-//
-//        group.notify(queue: .global()) {
-//            self.notifyGroup() { achieveImage in //Get images url for achieves
-//                if let achieveImage = achieveImage {
-//                    completion(allAchives, playerAchieves, achieveImage)
-//                }
-//            }
-//        }
-//    }
+    func testParseRefactor(nickName: String, completion: @escaping ([AllAchieves]?, [PlayerAchieves]?, [Achivement]?) -> Void ) {
+        let group = DispatchGroup()
+        var playerAchieves: [PlayerAchieves]?
+        var allAchives: [AllAchieves]?
+        var achivements: [Achivement]?
+        getPlayerAchieves(nickName: nickName, group: group) { achieves in //Get current Player Achives
+            playerAchieves = achieves
+        }
+        
+        getAllAchieves(group: group) { achieves in //Get list of all achieves
+            allAchives = achieves
+        }
+        
+        notifyGroup { achivement in
+            achivements = achivement
+        }
+        
+        group.notify(queue: .global()) {
+            completion(allAchives, playerAchieves, achivements)
+        }
+    }
 }
     
     

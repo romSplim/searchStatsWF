@@ -16,11 +16,13 @@ protocol ListNewsPresenterProtocol: AnyObject {
     init(view: ListNewsViewProtocol, rssService: RssService, imageService: ImageService, router: RouterProtocol)
     var rssNews: RSSFeed? { get set }
     var newsImages: [String]? { get set }
-    func getNewsInfo()
-    func parsingImgNewUrl()
+    func getNewsInfo(completion: @escaping () -> Void)
+    func parsingImgNewUrl(completion: @escaping () -> Void)
+    func dispatchGroupTask()
     func loadImageToCell(url: String, indexPath: IndexPath, completion: @escaping (UIImage) -> Void)
 }
-class ListNewsPresenter: ListNewsPresenterProtocol {
+
+final class ListNewsPresenter: ListNewsPresenterProtocol {
     
     weak private var view: ListNewsViewProtocol?
     
@@ -37,21 +39,49 @@ class ListNewsPresenter: ListNewsPresenterProtocol {
         self.router = router
     }
     
-    func getNewsInfo() {
+    func getNewsInfo(completion: @escaping () -> Void ) {
         rssService?.parseNews { [weak self] news in
-            guard let self = self else { return }
+            guard let self = self else {
+                completion()
+                return
+            }
             self.rssNews = news
-            self.view?.refreshUI()
+            print("получаем новости")
+            completion()
         }
     }
     
-    func parsingImgNewUrl() {
+    func parsingImgNewUrl(completion: @escaping () -> Void ) {
         SwiftSoupManager.shared.HtmlParse { [weak self] images in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.newsImages = images
-                self.view?.refreshUI()
+            guard let self = self else {
+                completion()
+                return
             }
+            print("получаем картинки к новостям")
+                self.newsImages = images
+            completion()
+        }
+    }
+    
+    func dispatchGroupTask() {
+        let group = DispatchGroup()
+        let qCuncurrent = DispatchQueue(label: "cuncurrent", attributes: .concurrent)
+        group.enter()
+        qCuncurrent.async(group: group) {
+            print("News start")
+            self.getNewsInfo {
+                group.leave()
+            }
+        }
+        group.enter()
+        qCuncurrent.async(group: group) {
+            print("Images start")
+            self.parsingImgNewUrl {
+                group.leave()
+            }
+        }
+        group.notify(queue: .main) {
+            self.view?.refreshUI()
         }
     }
     

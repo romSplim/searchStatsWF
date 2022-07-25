@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageService {
+final class ImageService {
     
     let cache = NSCache<NSNumber, UIImage>()
     
@@ -16,13 +16,11 @@ class ImageService {
         let index = NSNumber(value: indexPath.row)
         if let cachedImage = cache.object(forKey: index) {
             completion(cachedImage)
-            print("кэш")
         } else {
                 URLSession.shared.dataTask(with: url) { (data, _, _) in
                     if let data = data {
                         DispatchQueue.main.async {
                             let image = UIImage(data: data)
-                            print("инет")
                             self.cache.setObject(image!, forKey: index)
                             completion(image)
                             print(index)

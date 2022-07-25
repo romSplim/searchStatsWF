@@ -14,7 +14,7 @@ protocol DetailPlayerViewProtocol: AnyObject {
 
 protocol DetailPlayerPresenterProtocol: AnyObject {
     init(nickName: String, view: DetailPlayerViewProtocol, networkService: NetworkDataFetcher, storageManager: StorageManager, router: RouterProtocol)
-    var nickName: String? { get set }
+    var nickName: String! { get set }
     var player: Player? { get set }
     var isPlayerFavorite: Bool { get set }
     var networkService: NetworkDataFetcher? { get }
@@ -22,10 +22,11 @@ protocol DetailPlayerPresenterProtocol: AnyObject {
     var onCompletion: (((Player?, ErrorPlayer?)) -> Void)! { get set }
     func savePlayerInCoreData()
     func deleteFromCoreData(withNickName: String)
+    func showAchieves()
 }
  
-class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
-    
+final class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
+   
     private weak var view: DetailPlayerViewProtocol?
     
     var networkService: NetworkDataFetcher?
@@ -33,7 +34,7 @@ class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
     var router: RouterProtocol?
     
     let coreData = CoreDataStorage.shared
-    var nickName: String?
+    var nickName: String!
     var player: Player?
     var isPlayerFavorite = false
     var onCompletion: (((Player?, ErrorPlayer?)) -> Void)!
@@ -48,7 +49,7 @@ class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
     }
     
     func getPlayerData(nickName: String) {
-        networkService?.fetchPlayerData(serchTerm: nickName, completion: { [weak self] player, error in
+        networkService?.fetchPlayerData(serchTerm: nickName) { [weak self] player, error in
             guard let self = self else { return }
             if let errorMessage = error?.message {
                 self.view?.showErrorMessage(errorMessage)
@@ -57,7 +58,7 @@ class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
                 self.isPlayerFavorite = (self.coreData.itemExists(self.player?.nickname ?? ""))
                 self.view?.refreshUI()
             }
-        })
+        }
     }
     
     func recievingPlayerData() {
@@ -87,6 +88,11 @@ class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
             context.delete(obj)
         }
     }
+    
+    func showAchieves() {
+        router?.showPlayerAchieves(nickName: nickName)
+    }
+    
     deinit {
         print("detail vc was deinited")
     }

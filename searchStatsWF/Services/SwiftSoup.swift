@@ -8,7 +8,7 @@
 import UIKit
 import SwiftSoup
 
-class SwiftSoupManager {
+final class SwiftSoupManager {
     static let shared = SwiftSoupManager()
     
     func HtmlParse( completion: @escaping ([String]) -> Void ) {

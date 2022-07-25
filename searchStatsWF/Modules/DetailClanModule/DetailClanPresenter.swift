@@ -19,7 +19,7 @@ protocol DetailClanPresenterProtocol: AnyObject {
     func loadClanDetail(clanName: String)
 }
 
-class DetailClanPresenter: DetailClanPresenterProtocol {
+final class DetailClanPresenter: DetailClanPresenterProtocol {
     
     weak private var view: DetailClanViewProtocol?
     

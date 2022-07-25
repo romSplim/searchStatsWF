@@ -8,7 +8,7 @@
 import UIKit
 import SkeletonView
 
-class DetailClanTableViewController: UIViewController {
+final class DetailClanTableViewController: UIViewController {
     
     var presenter: DetailClanPresenterProtocol?
     
@@ -32,10 +32,23 @@ class DetailClanTableViewController: UIViewController {
         return label
     }()
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = .large
+        indicator.color = .white
+        indicator.hidesWhenStopped = true
+        indicator.contentMode = .center
+        indicator.startAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(indicator)
+        return indicator
+    }()
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.isHidden = true
         tableView.rowHeight = 100
         tableView.estimatedRowHeight = 100
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +60,9 @@ class DetailClanTableViewController: UIViewController {
         NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.topAnchor),
                                      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                                     tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+                                     tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                                     activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
     }
     
     func pushPlayerDetailVC(nickName: String) {
@@ -58,6 +73,8 @@ class DetailClanTableViewController: UIViewController {
 extension DetailClanTableViewController: DetailClanViewProtocol {
     func refreshUI() {
         tableView.reloadData()
+        activityIndicator.stopAnimating()
+        tableView.isHidden = false
     }
     
 }
@@ -71,8 +88,6 @@ extension DetailClanTableViewController: UITableViewDataSource, UITableViewDeleg
             tableView.backgroundView = nil
         } else {
             tableView.backgroundView = errorLabel
-            errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
             tableView.separatorStyle = .none
         }
         return numOfSections

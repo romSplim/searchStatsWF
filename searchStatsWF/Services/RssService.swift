@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 import AlamofireRSSParser
 
-class RssService {
+final class RssService {
     let url = "https://ru.warface.com/rss.xml"
     
     func parseNews(completion: @escaping (RSSFeed) -> Void) {

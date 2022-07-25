@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class CoreDataStorage {
+final class CoreDataStorage {
     
     static let shared = CoreDataStorage()
     
