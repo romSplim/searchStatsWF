@@ -24,4 +24,6 @@ class AchivesCell: UITableViewCell {
         achieveImg.image = nil
     }
     
+    
+    
 }

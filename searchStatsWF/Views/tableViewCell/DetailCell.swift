@@ -39,6 +39,7 @@ class DetailCell: UITableViewCell {
     }
     
     private func setupUI() {
+        gradientLayer.frame = achievesBtn.bounds
         backgroundColor = .black
         nicknameLabel.textColor = .white
         nicknameLabel.font = .mediumFont(size: 17)
@@ -48,9 +49,11 @@ class DetailCell: UITableViewCell {
         favoriteButton.setImage(.emptyStar, for: .normal)
         achievesBtn.setTitle("Достижения", for: .normal)
         progressInfoBtn.setTitle("Прогресс", for: .normal)
-        achievesBtn.backgroundColor = .flatOrange
-        achievesBtn.tintColor = .amethyst
+//        achievesBtn.backgroundColor = .flatOrange
+//        achievesBtn.tintColor = .amethyst
         achievesBtn.layer.cornerRadius = achievesBtn.frame.height / 2
+        achievesBtn.layer.addSublayer(gradientLayer)
+        clanLabel.textColor = gradientColor(bounds: clanLabel.bounds, gradientLayer: gradientLayer)
     }
     
     func setupCell(with player: Player?, images: [Int: String]) {
@@ -65,6 +68,27 @@ class DetailCell: UITableViewCell {
             
         }
     }
+    
+    private let gradientLayer: CAGradientLayer = {
+        let layer = CAGradientLayer()
+        let blue = UIColor.blue.cgColor
+        let orange = UIColor.orange.cgColor
+        layer.colors = [blue, orange]
+        layer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        layer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        return layer
+    }()
+    
+    func gradientColor(bounds: CGRect, gradientLayer: CAGradientLayer) -> UIColor? {
+    //We are creating UIImage to get gradient color.
+          UIGraphicsBeginImageContext(gradientLayer.bounds.size)
+          gradientLayer.render(in: UIGraphicsGetCurrentContext()!)
+          let image = UIGraphicsGetImageFromCurrentImageContext()
+          UIGraphicsEndImageContext()
+          return UIColor(patternImage: image!)
+    }
+    
+
     
     func clanStatus(model: Player) -> String {
         return model.clanName ?? "Не состоит в клане"

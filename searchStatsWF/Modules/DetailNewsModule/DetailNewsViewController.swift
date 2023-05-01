@@ -17,7 +17,9 @@ final class DetailNewsViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         addSubviews()
         setupLayout()
-        loadNews()
+        DispatchQueue.global(priority: .background).async {
+            self.loadNews()
+        }
     }
     
     private func addSubviews() {
@@ -31,9 +33,12 @@ final class DetailNewsViewController: UIViewController {
         return webView
     }()
     
+    
     func loadNews() {
-        guard let url = URL(string: urlCurrentNews) else { return }
-        webView.load(URLRequest(url: url))
+            guard let url = URL(string: self.urlCurrentNews) else { return }
+            DispatchQueue.main.async {
+                self.webView.load(URLRequest(url: url))
+            }
     }
     
     func setupLayout() {

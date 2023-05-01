@@ -8,6 +8,7 @@
 import Foundation
 
 final class NetworkDataFetcher {
+    
     private let networkService = NetworkService()
     
     func fetchPlayerData(serchTerm: String, completion: @escaping (Player?, ErrorPlayer?) -> Void) {
@@ -40,7 +41,7 @@ final class NetworkDataFetcher {
                 let decode = self.decodeJSON(type: [PlayerAchieves].self, from: data)
                 completion(decode,nil)
             case (201...400):
-                print("какая-то хуйня пришла")
+                print("Response error")
             default:
                 print("Dont know what its mean")
             }
@@ -58,7 +59,7 @@ final class NetworkDataFetcher {
                 let decode = self.decodeJSON(type: [AllAchieves].self, from: data)
                 completion(decode,nil)
             case (201...400):
-                print("какая-то хуйня пришла")
+                print("Response error")
             default:
                 print("Dont know what its mean")
             }
@@ -77,7 +78,7 @@ final class NetworkDataFetcher {
                 let decode = self.decodeJSON(type: Clan.self, from: data)
                 completion(decode)
             case (201...400):
-                print("какая-то хуйня пришла")
+                print("Response error")
                 completion(nil)
             default:
                 print("Dont know what its mean")
@@ -105,11 +106,7 @@ final class NetworkDataFetcher {
               let achievement = try? decoder.decode([Achivement].self, from: data) else { return nil }
         return achievement
     }
-    //////////////////////////////////////////
-    
-   
-    
-    
+
     private func getPlayerAchieves(nickName: String, group: DispatchGroup, completion: @escaping ([PlayerAchieves]?) -> Void) {
         group.enter()
         self.fetchPlayerAchievement(serchTerm: nickName) { achieves, error in
@@ -141,14 +138,15 @@ final class NetworkDataFetcher {
     
     
     private func notifyGroup(completion: @escaping ([Achivement]?) -> Void) {
-        cuncurrentQ.async {
+        let serial = DispatchQueue(label: "queue for decoding inmemory json")
+
+        serial.async {
             guard let allAchievesImages = self.decodeInMemoryJson() else { return }
             completion(allAchievesImages)
         }
     }
     
-    let cuncurrentQ = DispatchQueue.global(qos: .userInitiated)
-    
+        
     func testParseRefactor(nickName: String, completion: @escaping ([AllAchieves]?, [PlayerAchieves]?, [Achivement]?) -> Void ) {
         let group = DispatchGroup()
         var playerAchieves: [PlayerAchieves]?

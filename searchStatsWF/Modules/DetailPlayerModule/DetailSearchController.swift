@@ -145,5 +145,6 @@ extension DetailSearchController: DetailCellProtocol {
     }
     
     
+    
 }
 

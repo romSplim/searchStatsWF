@@ -27,6 +27,8 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
   
     private weak var view: SearchViewProtocol?
     
+    let Biganus = 4
+    
     var router: RouterProtocol?
     var networkService: NetworkDataFetcher?
     var storageManager: StorageManager?

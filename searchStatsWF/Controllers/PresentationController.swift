@@ -9,7 +9,7 @@ import UIKit
 
 final class PresentationController: UIPresentationController {
     
-    let blurEffectView: UIVisualEffectView!
+    let blurEffectView: UIVisualEffectView
     var tapGestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer()
     
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {

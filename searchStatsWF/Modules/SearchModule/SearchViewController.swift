@@ -22,7 +22,7 @@ final class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         presenter?.restoreFavFromStorage()
     }
-  
+    
     func setupRootView() {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .black
@@ -44,7 +44,7 @@ final class SearchViewController: UIViewController {
         return tableView
     }()
     
-    func setConstraints() {
+    private func setConstraints() {
         NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.topAnchor),
                                      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -85,8 +85,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let favoritePlayer = presenter?.favoritePlayers?[indexPath.row]
         let imageStorage = presenter?.storageManager?.ranksImgs
         cell.setupCell(with: favoritePlayer, images: imageStorage)
-        cell.startShimmeringAnimation()
-        cell.stopShimmeringAnimation()
         return cell
     }
    

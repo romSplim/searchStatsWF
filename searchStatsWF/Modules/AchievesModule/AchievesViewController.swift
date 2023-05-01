@@ -14,6 +14,7 @@ final class AchievesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorColor = .blue
+        title = "Достижения"
         setConstraints()
         presenter?.showPlayerAchieves()
         setupRightBarButton()

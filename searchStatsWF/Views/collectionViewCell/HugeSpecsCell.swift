@@ -15,6 +15,7 @@ class HugeSpecsCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupLayer()
         myView.backgroundColor = .myBackgroundGray
         valueLabel.font = .boldFont(size: 16)
         valueLabel.textColor = .white
@@ -38,6 +39,16 @@ class HugeSpecsCell: UICollectionViewCell {
         let dynamicValues = [model.pvpAll, killdeath, onlineTime, model.rankID, model.experience] as [Any]
         textLabel.text = staticValues[indexPath.row]
         valueLabel.text = "\(dynamicValues[indexPath.row])"
+    }
+    
+    private func setupLayer() {
+        let layer = CAGradientLayer()
+        let blue = UIColor.blue.cgColor
+        let orange = UIColor.orange.cgColor
+        layer.colors = [blue, orange]
+        layer.locations = [0.0, 1.0]
+        myView.layer.addSublayer(layer)
+        
     }
     
 }

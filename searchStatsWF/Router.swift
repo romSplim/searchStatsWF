@@ -19,14 +19,14 @@ protocol RouterProtocol {
 }
 
 final class Router: RouterProtocol {
+    
+    var navigationController: UINavigationController?
+    var assemblyBuilder: AssemblyProtocol?
+    
     required init(navigationController: UINavigationController, assemblyBuilder: AssemblyProtocol) {
         self.navigationController = navigationController
         self.assemblyBuilder = assemblyBuilder
     }
-    
-    var navigationController: UINavigationController?
-    
-    var assemblyBuilder: AssemblyProtocol?
     
     func initialSearchController() {
         guard let navigationController = navigationController,
