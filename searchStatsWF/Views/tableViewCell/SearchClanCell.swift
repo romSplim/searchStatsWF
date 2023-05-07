@@ -19,6 +19,7 @@ class SearchClanCell: UITableViewCell {
         super.awakeFromNib()
         setupLayout()
     }
+    
     private func setupLayout() {
         clanRole.font = .regularFont(size: 15)
         clanRole.textColor = .myColor2
@@ -28,7 +29,11 @@ class SearchClanCell: UITableViewCell {
         nickNameLbl.sizeToFit()
         numberLbl.sizeToFit()
     }
-    func setupCell(model: Clan?, indexPath: IndexPath, ranks: [Int: String]) {
+    func setupCell(
+        model: Clan?,
+        indexPath: IndexPath,
+        ranks: [Int: String]
+    ){
         guard let model = model else { return }
         let member = model.members[indexPath.row]
         let rank = model.members[indexPath.row].rankID
@@ -36,8 +41,7 @@ class SearchClanCell: UITableViewCell {
         numberLbl.text = "\(indexPath.row + 1)"
         rankImg.image = UIImage(named: ranks[intRank!]!)
         nickNameLbl.text = member.nickname
-        clanRole.text = member.clanRole.localize()
+        clanRole.text = member.clanRole.localized
         clanPoints.text = member.clanPoints
     }
-    
 }

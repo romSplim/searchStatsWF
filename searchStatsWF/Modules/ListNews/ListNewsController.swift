@@ -24,7 +24,6 @@ final class ListNewsController: UIViewController {
         setupTableView()
         setupLayout()
         presenter?.dispatchGroupTask()
-        setupRefreshIndicator()
     }
     
     private func setupRootView() {
@@ -47,25 +46,6 @@ final class ListNewsController: UIViewController {
                                      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
     }
     
-    
-    func setupRefreshIndicator() {
-        refreshIndicator.tintColor = .white
-    
-//        refreshIndicator.addTarget(self, action: #selector(refreshControlTapped), for: .valueChanged)
-        tableView.refreshControl = refreshIndicator
-    }
-    
-//    @objc func refreshControlTapped(sender: UIRefreshControl) {
-//        SwiftSoupManager.shared.HtmlParse { [weak self] newsData in
-//            guard let self = self else { return }
-//            DispatchQueue.main.async {
-//                self.news = newsData
-//                self.tableView.reloadData()
-//                self.refreshIndicator.endRefreshing()
-//            }
-//        }
-//    }
-    
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -82,8 +62,6 @@ final class ListNewsController: UIViewController {
 
 extension ListNewsController: ListNewsViewProtocol {
     func refreshUI() {
-        print("Новости получены")
-        print("Новостей - \(presenter?.rssNews?.items.count), Картинок - \(presenter?.newsImages?.count)")
         self.tableView.reloadData()
         self.tableView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
     }
@@ -102,6 +80,7 @@ extension ListNewsController: SkeletonTableViewDataSource, SkeletonTableViewDele
               let currentImage = presenter?.newsImages?[indexPath.row] else { return UITableViewCell()}
         cell.id = currentImage
         cell.setupCell(item: currentAtricle)
+        
         presenter?.loadImageToCell(url: currentImage, indexPath: indexPath) { image in
             if currentImage == cell.id {
                 cell.newsImage.image = image
@@ -120,5 +99,4 @@ extension ListNewsController: SkeletonTableViewDataSource, SkeletonTableViewDele
     func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
         return "NewsCell"
     }
-    
 }

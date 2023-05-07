@@ -5,7 +5,7 @@
 //  Created by Рамиль Ахатов on 08.07.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol SearchViewProtocol: AnyObject {
     func refreshUI()
@@ -17,8 +17,9 @@ protocol SearchViewPresenterProtocol: AnyObject {
     var favoritePlayers: [FavoriteObject]? { get set }
     var networkService: NetworkDataFetcher? { get set }
     var storageManager: StorageManager? { get set }
-    func restoreFavFromStorage()
-    func deleteFromCoreData(indexPath: IndexPath)
+    func fetchFavoritePlayers()
+//    func deleteFromFavorite(indexPath: IndexPath)
+    func deleteFromFavorite(indexPath: IndexPath, editingStyle: UITableViewCell.EditingStyle)
     func showPlayerDetail(nickName: String)
     func showClanDetail(clanName: String)
 }
@@ -26,8 +27,6 @@ protocol SearchViewPresenterProtocol: AnyObject {
 final class SearchViewPresenter: SearchViewPresenterProtocol {
   
     private weak var view: SearchViewProtocol?
-    
-    let Biganus = 4
     
     var router: RouterProtocol?
     var networkService: NetworkDataFetcher?
@@ -45,7 +44,7 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
         self.router = router
     }
     
-    func restoreFavFromStorage() {
+    func fetchFavoritePlayers() {
         CoreDataStorage.shared.fetchData { result in
             switch result {
             case .success(let stats):
@@ -57,7 +56,8 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
         }
     }
     
-    func deleteFromCoreData(indexPath: IndexPath) {
+    func deleteFromFavorite(indexPath: IndexPath, editingStyle: UITableViewCell.EditingStyle) {
+        guard editingStyle == .delete else { return }
         CoreDataStorage.shared.delete(favoritePlayers?[indexPath.row] ?? FavoriteObject())
         favoritePlayers?.remove(at: indexPath.row)
         view?.tableViewDeleteRows(indexPath)

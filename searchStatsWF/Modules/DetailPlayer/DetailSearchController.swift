@@ -67,22 +67,18 @@ final class DetailSearchController: UIViewController {
     }()
     
     private func setConstraints() {
-        NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.topAnchor),
-                                     tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                                     tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                                     tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                                     activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                                     activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                                     errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                                     errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
-    
-    @objc func nextRankTapped(sender: UITapGestureRecognizer) {
-//        let vc = DetailExpProgressController()
-//        vc.modalPresentationStyle = .custom
-//        vc.transitioningDelegate = self
-//        self.present(vc, animated: true)
-    }
+
     
     private func addPlayerToFavourite(nickName: String, sender: UIButton) {
         if sender.currentImage == .emptyStar {
@@ -97,7 +93,7 @@ final class DetailSearchController: UIViewController {
     func addHapticFeedback() {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
-        let gen2 = UIImpactFeedbackGenerator(style: .light)
+        let gen2 = UIImpactFeedbackGenerator(style: .soft)
         gen2.impactOccurred()
     }
     
@@ -115,7 +111,6 @@ extension DetailSearchController: DetailPlayerViewProtocol {
         self.activityIndicator.stopAnimating()
         self.tableView.isHidden = false
     }
-    
 }
 
 extension DetailSearchController: UIViewControllerTransitioningDelegate {

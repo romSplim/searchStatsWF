@@ -12,7 +12,7 @@ final class SwiftSoupManager {
     
     static let shared = SwiftSoupManager()
 
-    func HtmlParse( completion: @escaping ([String]) -> Void ) {
+    func htmlParse(completion: @escaping ([String]) -> Void) {
         DispatchQueue.global().async {
             guard let myURL = URL(string: "https://ru.warface.com/news/"),
                   let html = try? String(contentsOf: myURL, encoding: .utf8) else { return }

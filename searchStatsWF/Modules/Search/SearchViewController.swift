@@ -6,9 +6,23 @@
 //
 
 import UIKit
-import CoreData
 
 final class SearchViewController: UIViewController {
+    
+    enum Section: String, CaseIterable {
+        case players = "Персонажи"
+        case clans = "Кланы"
+        
+        var placeholderText: String {
+            switch self {
+            case .players:
+                return "Введите имя персонажа"
+            case .clans:
+                return "Введите название клана"
+            }
+        }
+    }
+
     
     var presenter: SearchViewPresenterProtocol?
     
@@ -20,7 +34,7 @@ final class SearchViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        presenter?.restoreFavFromStorage()
+        presenter?.fetchFavoritePlayers()
     }
     
     func setupRootView() {
@@ -96,50 +110,32 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
 //Delete Player from CoreData
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            presenter?.deleteFromCoreData(indexPath: indexPath)
-        }
+        presenter?.deleteFromFavorite(indexPath: indexPath, editingStyle: editingStyle)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if let searchText = presenter?.favoritePlayers?[indexPath.row].nickName {
-           pushPlayerDetailVC(nickName: searchText)
+            pushPlayerDetailVC(nickName: searchText)
         }
     }
 }
 
 //MARK: - UISearchBar Delegate methods
-enum ScopeItems: String {
-    case players = "Персонажи"
-    case clans = "Кланы"
-    
-    var placeholderText: String {
-        switch self {
-        case .players:
-            return "Введите имя персонажа"
-        case .clans:
-            return "Введите название клана"
-        }
-    }
-
-}
-
 
 extension SearchViewController: UISearchBarDelegate {
     func setupSearchController() {
         let searchController = UISearchController()
         let searchBar = searchController.searchBar
-//        let items: [ScopeItems] = [.players, .clans]
         searchBar.showsScopeBar = true
-        searchBar.scopeButtonTitles = [ScopeItems.players.rawValue, ScopeItems.clans.rawValue]
+        searchBar.scopeButtonTitles = Section.allCases.map { $0.rawValue }
         searchBar.delegate = self
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        searchBar.placeholder = searchBar.scopeButtonTitles![selectedScope]
+        searchBar.placeholder = searchBar.scopeButtonTitles?[selectedScope]
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

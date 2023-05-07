@@ -97,6 +97,7 @@ extension DetailSearchController: UICollectionViewDataSource, UICollectionViewDe
         cell.setupCell(model: player, indexPath: indexPath)
         return cell
     }
+    
     //MARK: - UICollectionView DelegateFlowLayout methods
     
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -110,13 +111,5 @@ extension DetailSearchController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.bounds.width / 3) - 25
         return CGSize(width: width, height: width)
-    }
-}
-
-extension DetailSearchController: UIGestureRecognizerDelegate {
-    func a() -> UIGestureRecognizer {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(nextRankTapped))
-        gesture.delegate = self
-        return gesture
     }
 }

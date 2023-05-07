@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ClanNameCell: UITableViewCell {
+final class ClanNameCell: UITableViewCell {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var clanName: UILabel!
     @IBOutlet weak var countOfMembers: UILabel!
@@ -18,15 +18,14 @@ class ClanNameCell: UITableViewCell {
     }
     
     func configure(with clan: Clan?) {
-        guard let clan = clan else { return }
-        let members = clan.members.count
+        guard let clan else { return }
+        let membersCount = clan.members.count
         clanName.text = clan.name
-        countOfMembers.text = "Участников \(members)/50"
+        countOfMembers.text = "Участников \(membersCount)/50"
     }
     
     private func setupLayout() {
         containerView.layer.cornerRadius = containerView.frame.height / 4
-//        containerView.backgroundColor = .myBackgroundGray
         clanName.font = .mediumFont(size: 24)
         countOfMembers.font = .regularFont(size: 17)
         countOfMembers.textColor = .myColor2

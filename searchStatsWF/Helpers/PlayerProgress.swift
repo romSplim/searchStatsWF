@@ -17,7 +17,7 @@ class PlayerProgress {
     }()
     
     static func calculate(model: Player?, ranksStorage: [Int: Int]) -> Float {
-        guard let model = model else { return 0 }
+        guard let model else { return 0 }
         let progress = model.rankID >= 100 ? setMaxProgress() : calculateExp(model: model, ranksStorage: ranksStorage)
         return progress
     }
@@ -34,7 +34,5 @@ class PlayerProgress {
         let expBetweenRanks = nextRank - currentRank
         let progress = (currentExp - currentRank) / expBetweenRanks
         return progress
-        
-        
     }
 }

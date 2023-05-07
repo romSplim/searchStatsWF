@@ -13,12 +13,13 @@ protocol HeaderViewDataSource: AnyObject {
 
 class HeaderView: UIView {
     var titleText: String
-    var trackingNum: String? 
+    var trackingNum: String?
+    
     weak var dataSource: HeaderViewDataSource? {
-            didSet {
-                updateHeaderView()
-            }
+        didSet {
+            updateHeaderView()
         }
+    }
     
     init(title: String) {
         self.titleText = title

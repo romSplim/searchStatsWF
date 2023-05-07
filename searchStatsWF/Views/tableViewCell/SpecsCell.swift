@@ -28,7 +28,11 @@ class SpecsCell: UITableViewCell {
         guard let model = model else { return }
         if indexPath.section == 2 {
             let staticSpecs = [ "Убийства", "Убито своих", "Смерти", "Победы", "Поражения", "Всего матчей", "Соотношения", "Любимый класс" ]
-            let dynamicSpecs: [Any?] = [model.kill.formattedWithSeparator, model.friendlyKills.formattedWithSeparator, model.death.formattedWithSeparator, model.pvpWINS.formattedWithSeparator, model.pvpLost.formattedWithSeparator, model.pvpAll.formattedWithSeparator, model.pvpwl, model.favoritPVP]
+            let dynamicSpecs: [Any?] = [
+                model.kill.formattedWithSeparator, model.friendlyKills.formattedWithSeparator, model.death.formattedWithSeparator, model.pvpWINS.formattedWithSeparator, model.pvpLost.formattedWithSeparator, model.pvpAll.formattedWithSeparator,
+                model.pvpwl,
+                model.favoritPVP.toString()
+            ]
             
             specsStaticLabel.text = staticSpecs[indexPath.row]
             specsDynamicLabel.text = "\(dynamicSpecs[indexPath.row] ?? "")"

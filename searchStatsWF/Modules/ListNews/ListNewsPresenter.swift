@@ -41,7 +41,7 @@ final class ListNewsPresenter: ListNewsPresenterProtocol {
     
     func getNewsInfo(completion: @escaping () -> Void ) {
         rssService?.parseNews { [weak self] news in
-            guard let self = self else {
+            guard let self else {
                 completion()
                 return
             }
@@ -52,8 +52,8 @@ final class ListNewsPresenter: ListNewsPresenterProtocol {
     }
     
     func parsingImgNewUrl(completion: @escaping () -> Void ) {
-        SwiftSoupManager.shared.HtmlParse { [weak self] images in
-            guard let self = self else {
+        SwiftSoupManager.shared.htmlParse { [weak self] images in
+            guard let self else {
                 completion()
                 return
             }

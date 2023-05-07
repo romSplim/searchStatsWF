@@ -55,7 +55,7 @@ final class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
                 self.view?.showErrorMessage(errorMessage)
             } else if let player = player {
                 self.player = player
-                self.isPlayerFavorite = (self.coreData.itemExists(self.player?.nickname ?? ""))
+                self.isPlayerFavorite = (self.coreData.isItemFavorite(self.player?.nickname ?? ""))
                 self.view?.refreshUI()
             }
         }
@@ -68,7 +68,7 @@ final class DetailPlayerPresenter: DetailPlayerPresenterProtocol {
                 self.view?.showErrorMessage(errorMessage)
             } else if let player = data.0 {
                 self.player = player
-                self.isPlayerFavorite = (self.coreData.itemExists(self.player?.nickname ?? ""))
+                self.isPlayerFavorite = (self.coreData.isItemFavorite(self.player?.nickname ?? ""))
                 self.view?.refreshUI()
             }
         }
