@@ -13,8 +13,6 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         setupRootControllers()
         setupTabBarAppearence()
-        
-        
     }
     
     func setupRootControllers() {

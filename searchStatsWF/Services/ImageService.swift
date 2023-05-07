@@ -17,16 +17,15 @@ final class ImageService {
         if let cachedImage = cache.object(forKey: index) {
             completion(cachedImage)
         } else {
-                URLSession.shared.dataTask(with: url) { (data, _, _) in
-                    if let data = data {
-                        DispatchQueue.main.async {
-                            let image = UIImage(data: data)
-                            self.cache.setObject(image!, forKey: index)
-                            completion(image)
-                            print(index)
-                        }
+            URLSession.shared.dataTask(with: url) { (data, _, _) in
+                if let data {
+                    DispatchQueue.main.async {
+                        let image = UIImage(data: data)
+                        self.cache.setObject(image!, forKey: index)
+                        completion(image)
                     }
-                }.resume()
+                }
+            }.resume()
         }
     }
 }

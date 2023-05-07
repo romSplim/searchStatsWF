@@ -52,30 +52,6 @@ struct Player: Codable {
     }
 }
 
-enum GameClass: String, Codable {
-    case rifleman = "Rifleman"
-    case medic = "Medic"
-    case engineer = "Engineer"
-    case recon = "Recon"
-    case sed = "SED"
-   
-    
-    func localize() -> String {
-        switch self {
-        case .rifleman:
-            return "Штурмовик"
-        case .medic:
-            return "Медик"
-        case .engineer:
-            return "Инженер"
-        case .recon:
-            return "Снайпер"
-        case .sed:
-            return "Сэд"
-        }
-    }
-}
-
 enum AnyCodable {
     case string(value: String)
     case int(value: Int)

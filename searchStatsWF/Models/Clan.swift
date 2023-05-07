@@ -42,4 +42,15 @@ enum Role: String, Decodable {
             return "Глава"
         }
     }
+    
+    var localized: String {
+        switch self {
+        case .regular:
+            return "Рядовой"
+        case .officer:
+            return "Офицер"
+        case .master:
+            return "Глава"
+        }
+    }
 }

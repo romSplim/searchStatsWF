@@ -6,9 +6,9 @@ target 'searchStatsWF' do
   use_frameworks!
 
   # Pods for searchStatsWF
-	pod 'SwiftSoup'
 	pod 'SkeletonView'
 	pod 'AlamofireRSSParser'
+	pod 'SwiftSoup'
 	
 
 end
